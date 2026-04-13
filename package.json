@@ -1,6 +1,6 @@
 {
   "name": "@nuberea/openclaw",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "OpenClaw plugin for the NuBerea biblical data platform — exposes NuBerea MCP tools as native OpenClaw agent tools.",
   "type": "module",
   "main": "dist/plugin.js",

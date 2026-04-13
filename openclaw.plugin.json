@@ -3,7 +3,7 @@
   "name": "NuBerea",
   "family": "code-plugin",
   "description": "NuBerea biblical data platform — MCP tools for Bible texts, Hebrew/Greek morphology, lexicons, and Dead Sea Scrolls",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "skills": ["nuberea"],
   "activation": {
     "onCapabilities": ["tool"]
