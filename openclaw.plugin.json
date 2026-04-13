@@ -1,11 +1,23 @@
 {
   "id": "nuberea",
   "name": "NuBerea",
+  "family": "code-plugin",
   "description": "NuBerea biblical data platform — MCP tools for Bible texts, Hebrew/Greek morphology, lexicons, and Dead Sea Scrolls",
   "version": "0.0.1",
   "skills": ["nuberea"],
   "activation": {
     "onCapabilities": ["tool"]
+  },
+  "contracts": {
+    "tools": [
+      "nuberea_verse",
+      "nuberea_bible_search",
+      "nuberea_greek_lookup",
+      "nuberea_hebrew_lookup",
+      "nuberea_greek_morphology",
+      "nuberea_hebrew_morphology",
+      "nuberea_query"
+    ]
   },
   "configSchema": {
     "type": "object",

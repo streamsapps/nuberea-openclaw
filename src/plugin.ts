@@ -2,8 +2,8 @@
  * NuBerea OpenClaw plugin entry point.
  *
  * Registers NuBerea biblical-data tools into the OpenClaw agent so the LLM
- * can call them directly.  Authentication reuses tokens cached at
- * ~/.nuberea/tokens.json — run `nuberea login` once before using the tools.
+ * can call them directly. Run `npx @nuberea/sdk login` once to authenticate —
+ * credentials are stored in the OS keychain and auto-refresh.
  *
  * Tools registered:
  *   nuberea_verse             — KJV verse lookup
@@ -42,7 +42,7 @@ async function callTool(name: string, args: Record<string, unknown> = {}): Promi
       msg.toLowerCase().includes('unauthorized') ||
       msg.toLowerCase().includes('token');
     const text = isAuth
-      ? 'NuBerea: not authenticated — run `nuberea login` to sign in'
+      ? 'NuBerea: not authenticated — run `npx @nuberea/sdk login` to sign in'
       : `NuBerea error: ${msg}`;
     return { content: [{ type: 'text', text }] };
   }

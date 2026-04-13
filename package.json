@@ -38,7 +38,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/streamsapps/nuberea-sdk"
+    "url": "https://github.com/streamsapps/nuberea-openclaw.git"
   },
   "homepage": "https://nuberea.com",
   "engines": {
@@ -55,17 +55,20 @@
     "build": {
       "openclawVersion": "2026.4.11",
       "pluginSdkVersion": "2026.4.11"
+    },
+    "install": {
+      "npmSpec": "@nuberea/openclaw",
+      "defaultChoice": "npm",
+      "minHostVersion": ">=2026.3.28"
     }
   },
-  "peerDependencies": {
-    "openclaw": ">=2026.3.28"
-  },
   "dependencies": {
-    "@nuberea/sdk": "^0.0.4",
+    "@nuberea/sdk": "^0.0.7",
     "@sinclair/typebox": "^0.34.49"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
+    "openclaw": ">=2026.3.28",
     "typescript": "^5.7.0"
   }
 }
