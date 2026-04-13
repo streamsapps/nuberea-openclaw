@@ -1,0 +1,15 @@
+{
+  "id": "nuberea",
+  "name": "NuBerea",
+  "description": "NuBerea biblical data platform — MCP tools for Bible texts, Hebrew/Greek morphology, lexicons, and Dead Sea Scrolls",
+  "version": "0.0.1",
+  "skills": ["nuberea"],
+  "activation": {
+    "onCapabilities": ["tool"]
+  },
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {}
+  }
+}
