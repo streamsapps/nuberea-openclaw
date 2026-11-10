@@ -88,3 +88,55 @@ SQL endpoints (`nuberea_query`) enforce SELECT-only queries server-side. No INSE
 - "What is the Hebrew morphology of Genesis 1:1?"
 - "Find every verse in John that contains the word 'light'"
 - "Join the Greek NT with the Septuagint on lemma for John 1:1 and show the gloss and definition"
+
+## Publishing
+
+[Build and publish](.github/workflows/publish.yml) builds and packs the plugin on
+every pull request and push to `main`. Merging an unpublished package version to
+`main` automatically publishes the validated tarball to npm with provenance.
+Already-published versions are skipped, so ordinary merges and workflow retries
+do not try to overwrite an npm release.
+
+### One-time npm setup
+
+In the `@nuberea/openclaw` package settings on npmjs.com, add a **GitHub Actions
+trusted publisher** with these case-sensitive values:
+
+| Field | Value |
+|---|---|
+| Organization or user | `streamsapps` |
+| Repository | `nuberea-openclaw` |
+| Workflow filename | `publish.yml` |
+| Environment | Leave empty |
+
+Allow direct publishing, not stage-only publishing. No `NPM_TOKEN` or GitHub
+secret is required. The publish job uses OIDC on a GitHub-hosted runner with
+Node.js 24 and npm 11.5.1 or later. A newly configured publisher must complete its
+first publish within two days; otherwise, recreate it before retrying.
+See [npm trusted publishing](https://docs.npmjs.com/trusted-publishers/).
+
+### Releasing a version
+
+After merging the changes to release, prepare a release branch:
+
+```bash
+git switch main
+git pull --ff-only
+git switch -c release/next
+npm ci --ignore-scripts
+npm version patch --no-git-tag-version
+git add package.json package-lock.json
+git commit -m "chore: release next patch"
+git push -u origin release/next
+```
+
+Open a pull request and merge it to `main`. Use `minor` or `major` instead of
+`patch` when appropriate. Dependency updates also need a package version bump
+to reach existing consumers; publishing does not invent versions or commit back
+to the repository.
+
+Pushing a `v<version>` tag also triggers publishing, but its version must match
+`package.json`. The workflow can be run manually from `main` or a matching
+version tag after fixing a failed release (for example, after configuring the
+trusted publisher). Only stable versions are published to `latest`, and an
+unpublished version older than the current npm `latest` is rejected.
