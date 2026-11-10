@@ -1,6 +1,6 @@
 {
   "name": "@nuberea/openclaw",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "OpenClaw plugin for the NuBerea biblical data platform — exposes NuBerea MCP tools as native OpenClaw agent tools.",
   "type": "module",
   "main": "dist/plugin.js",
@@ -20,7 +20,9 @@
   ],
   "scripts": {
     "build": "tsc",
-    "prepublishOnly": "npm run build"
+    "test": "npm run build && node --test test/*.test.mjs",
+    "prepack": "npm run build",
+    "prepublishOnly": "npm test"
   },
   "keywords": [
     "openclaw",
@@ -42,24 +44,24 @@
   },
   "homepage": "https://nuberea.com",
   "engines": {
-    "node": ">=18"
+    "node": ">=24.16.0 <25 || >=26.1.0"
   },
   "openclaw": {
     "extensions": [
       "./dist/plugin.js"
     ],
     "compat": {
-      "pluginApi": ">=2026.3.28",
-      "minGatewayVersion": "2026.3.28"
+      "pluginApi": ">=2026.11.2",
+      "minGatewayVersion": "2026.11.2"
     },
     "build": {
-      "openclawVersion": "2026.4.11",
-      "pluginSdkVersion": "2026.4.11"
+      "openclawVersion": "2026.11.2",
+      "pluginSdkVersion": "2026.11.2"
     },
     "install": {
       "npmSpec": "@nuberea/openclaw",
       "defaultChoice": "npm",
-      "minHostVersion": ">=2026.3.28"
+      "minHostVersion": ">=2026.11.2"
     }
   },
   "dependencies": {
@@ -68,7 +70,14 @@
   },
   "devDependencies": {
     "@types/node": "^26.6.6",
-    "openclaw": ">=2026.3.28",
+    "openclaw": "2026.11.2",
     "typescript": "^7.0.2"
+  },
+  "overrides": {
+    "openclaw": {
+      "minimatch@10.2.6": "^11.0.1",
+      "npm@12.2.0": "12.2.2",
+      "zod@4.6.5": "^4.6.6"
+    }
   }
 }

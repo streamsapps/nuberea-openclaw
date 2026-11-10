@@ -22,7 +22,7 @@ jobs:
 
       - uses: actions/setup-node@v6
         with:
-          node-version: '24'
+          node-version: '26'
           package-manager-cache: false
 
       - name: Validate package version and release reference
@@ -58,6 +58,9 @@ jobs:
       - name: Run tests when available
         run: npm test --if-present
 
+      - name: Check shipped dependency audit
+        run: npm audit --omit=dev
+
       - name: Pack release artifact
         run: npm pack
 
@@ -86,7 +89,7 @@ jobs:
     steps:
       - uses: actions/setup-node@v6
         with:
-          node-version: '24'
+          node-version: '26'
           registry-url: https://registry.npmjs.org
           package-manager-cache: false
 

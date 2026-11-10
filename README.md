@@ -10,9 +10,60 @@ OpenClaw plugin for the [NuBerea](https://nuberea.com) biblical data platform. R
 
 ## Requirements
 
-- OpenClaw `>=2026.3.28`
-- Node.js `>=18`
+- OpenClaw `>=2026.11.2` (development and registration tests pin `2026.11.2`)
+- Node.js `>=24.16.0 <25 || >=26.1.0`, matching that host's supported runtimes
 - A free NuBerea account at [nuberea.com](https://nuberea.com)
+
+### Security and the 2.0 release
+
+Version 2.0 raises the host and Node.js minimums, so this is a breaking release,
+not a patch to 1.0.0. The previously allowed OpenClaw 2026.3.28 baseline is
+affected by known host advisories. As of November 10, 2026, the latest first-fixed
+version among the 208 reported OpenClaw advisories is 2026.6.6, but that older
+host still resolves vulnerable transitive packages. The development host is
+therefore pinned to the current 2026.11.2 release, and all host minimum
+declarations use that same floor. This is a baseline for known advisories, not
+a guarantee against future vulnerabilities. Keep the separately installed
+OpenClaw gateway updated.
+
+The package does not bundle or upgrade the gateway. Existing installations must
+upgrade their host themselves; editing repository metadata does not patch a
+running gateway. Because OpenClaw's plugin APIs are experimental, registration
+tests on the pinned version do not prove compatibility with every future host.
+Validate a newer host before deploying it.
+
+The development tree also uses scoped overrides for the host's pinned Zod and
+minimatch dependencies and updates its embedded npm dependency to 12.2.2.
+Root-package overrides do not propagate to consumers of this plugin and do not
+patch a separately installed gateway. The current published host still requires
+upstream dependency fixes; do not treat installing this plugin as a gateway
+security update.
+
+The full development audit still reports moderate findings rooted in the npm
+package's **bundled** `glob` and `minimatch` copies. npm overrides do not replace
+those bundled copies. They and their affected-package chains remain visible;
+the release does not claim an all-clear full-host audit. There are no
+critical/high findings in the tested development tree and `npm audit --omit=dev`
+reports no findings for the plugin's shipped dependencies. These audit results
+do not establish reachability or prove the whole gateway secure.
+
+### Package release
+
+Merging a new package version to `main` triggers the automated release workflow
+described under [Publishing](#publishing). A merge alone is not proof of
+publication: check the workflow result and verify npm `latest` separately with
+`npm view @nuberea/openclaw version`. In particular, the SDK dependency update
+from `^0.0.7` to `^0.1.5` is not available to users of the old published plugin
+until a new package is successfully released.
+
+The 2.0.0 version here is release preparation, not evidence that npm publication
+has happened. Review the breaking host/runtime requirements and remaining
+upstream audit limitations before authorizing a release.
+
+`prepack` rebuilds the entry point even for a local tarball. The automated release
+builds, runs the registration/tool tests and shipped dependency audit, and then
+publishes that validated tarball. Local builds, tests, and package inspection do
+not publish anything by themselves.
 
 ## Install
 
@@ -111,7 +162,7 @@ trusted publisher** with these case-sensitive values:
 
 Allow direct publishing, not stage-only publishing. No `NPM_TOKEN` or GitHub
 secret is required. The publish job uses OIDC on a GitHub-hosted runner with
-Node.js 24 and npm 11.5.1 or later. A newly configured publisher must complete its
+Node.js 26 and npm 11.5.1 or later. A newly configured publisher must complete its
 first publish within two days; otherwise, recreate it before retrying.
 See [npm trusted publishing](https://docs.npmjs.com/trusted-publishers/).
 
@@ -125,7 +176,8 @@ git pull --ff-only
 git switch -c release/next
 npm ci --ignore-scripts
 npm version patch --no-git-tag-version
-git add package.json package-lock.json
+# Set openclaw.plugin.json's version to match package.json.
+git add package.json package-lock.json openclaw.plugin.json
 git commit -m "chore: release next patch"
 git push -u origin release/next
 ```
