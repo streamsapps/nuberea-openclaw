@@ -20,11 +20,15 @@ Bible research platform — Hebrew/Greek morphology, lexicons, Bible texts, manu
 | `kjv` | `verses` | King James Version Bible text | 36,821 |
 | `cntr` | `transcriptions` | CNTR Greek NT manuscript transcriptions | 41,956 |
 | `dss` | `scrolls` | Dead Sea Scrolls word annotations | 500,991 |
-| `aland` | `pericopes` | Synoptic parallel pericopes (Aland) | 330 |
+| `ubs_parallel` | `passage_groups` | Official UBS parallel-passage groups | 2,193 |
+| `ubs_parallel` | `passage_members` | Source references and edition-specific word masks | 5,266 |
+| `ubs_parallel` | `passage_references` | Normalized OSIS and numeric reference spans | 5,276 |
+| `ubs_parallel` | `word_marks` | Decoded BHS/LXX/UBSGNT5 source-word annotations | 93,419 |
 
 ## Tool Collections
 
-57 MCP tools organized by prefix:
+MCP tool collections include the following; discover live schemas and availability
+at runtime:
 
 - **`bible_kjv_*`** — get_verse, get_chapter, get_verse_range, search_text, run_sql
 - **`macula_hebrew_*`** — query_verse, search_lemma, search_strong, search_word, run_sql
@@ -35,7 +39,7 @@ Bible research platform — Hebrew/Greek morphology, lexicons, Bible texts, manu
 - **`lexicon_abbott_smith_*`** — lookup, search_strong, search_definition
 - **`scroll_dss_*`** — get_scroll, get_fragment, search_lemma, list_scrolls
 - **`transcription_cntr_*`** — get_verse, list_manuscripts
-- **`synoptic_*`** — find_parallels, find_parallels_range, search, list_pericopes
+- **`parallel_passages_*`** — find by biblical reference; get a returned group with optional source-word marks
 - **`analytics_*`** — query (SQL), list_databases, describe_table, schema_introspect
 
 ## Example Workflows
