@@ -301,31 +301,29 @@ Run SQL on Dead Sea Scrolls
 
 - `sql`: string (required) — SQL SELECT query to execute against the "scrolls" table
 
-### synoptic_find_parallels
-Find synoptic gospel parallels for a single verse. For verse ranges, use synoptic_find_parallels_range.
+### parallel_passages_find
+Find UBS Old or New Testament parallel passages and OT quotations in the NT by
+reference. Returns complete groups and each member's source reference,
+normalized OSIS spans and source-edition word mask. Fetch biblical text
+separately. There is no event-title search.
 
-- `book`: string (required) — Book name (e.g., "Matt", "Mark", "Luke", "John")
+- `book`: string (required) — Book name, OSIS ID or USFM code (e.g., "Genesis", "Matt", "MAT")
 - `chapter`: number (required) — Chapter number
-- `verse`: number (required) — Verse number
+- `verse`: number (required) — First verse in source numbering
+- `endVerse`: number — Inclusive end verse in the same chapter (maximum 50 verses)
+- `groupType`: string — `ot_parallel`, `nt_parallel` or `ot_nt_quote`
+- `limit`: number — Maximum groups (default 20, maximum 50)
+- `offset`: number — Pagination offset (default 0); advance when `truncated` is true
 
-### synoptic_find_parallels_range
-Find synoptic gospel parallels for a verse range within a single chapter. Limited to 50 verses per lookup.
+### parallel_passages_get
+Retrieve a complete UBS group using an ID returned by lookup.
 
-- `book`: string (required) — Book name (e.g., "Matt", "Mark", "Luke", "John")
-- `chapter`: number (required) — Chapter number
-- `startVerse`: number (required) — First verse of the range
-- `endVerse`: number — Last verse of the range (defaults to startVerse)
+- `groupId`: string (required) — A returned `passage_group_id`, such as `ubs-parallel:2`
+- `includeWordMarks`: boolean — Include decoded word-match annotations (default false)
 
-### synoptic_search
-Search synoptic gospel parallels by topic, title, or keyword.
-
-- `query`: string (required) — Search term to match against pericope titles
-- `limit`: number — Maximum results to return
-
-### synoptic_list_pericopes
-List synoptic gospel pericopes from the Aland Synopsis (330 pericopes). Optionally filter to synoptic parallels only or to a specific gospel.
-
-- `synopticOnly`: boolean — If true, only show synoptic parallels
-- `book`: string — Filter to pericopes present in a specific gospel (e.g., "Matt", "Mark", "Luke", "John")
-- `limit`: number — Maximum results to return
+Preserve separate reference spans, including gaps. OSIS normalization does not
+convert edition versification. Word positions count BHS, LXX or UBSGNT5
+orthographic words across the complete member reference, not NuBerea tokens.
+Full matches refer to at least one other group member, not every member or a
+specific pairwise word alignment.
 
